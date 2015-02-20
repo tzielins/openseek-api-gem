@@ -3,9 +3,13 @@ require 'bundler/setup'
 
 require "openbis-api-gem/version"
 require 'open4'
+require 'json'
 
 module Fairdom
   module OpenbisApi
+    class OpenbisQueryException < Exception
+    end
+
     class Query
       JAR_VERSION="0.1.0"
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openbis-api-#{JAR_VERSION}.jar"
@@ -50,9 +54,10 @@ module Fairdom
         end
 
         if status.to_i != 0
+          raise OpenbisQueryException.new(err_message)
         end
 
-        output.strip
+        JSON.parse(output.strip)
       end
     end
   end
