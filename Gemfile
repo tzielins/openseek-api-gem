@@ -5,3 +5,4 @@ gemspec
 
 gem "open4","1.3.0"
 gem "rake", "10.4.2"
+gem "coveralls", "~> 0.7"
