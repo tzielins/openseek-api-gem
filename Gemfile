@@ -4,3 +4,4 @@ source "http://rubygems.org"
 gemspec
 
 gem "open4","1.3.0"
+gem "rake", "10.4.2"
