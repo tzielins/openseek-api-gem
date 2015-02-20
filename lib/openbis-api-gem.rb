@@ -19,8 +19,8 @@ module Fairdom
         endpoint ||= ENDPOINT
         @init_command = "java -jar #{DEFAULT_PATH}"
         @init_command +=  " -e #{endpoint}"
-        @init_command +=  " -u #{username}"
-        @init_command +=  " -pw #{password}"
+        @init_command +=  " -u #{username.dump}"
+        @init_command +=  " -pw #{password.dump}"
       end
 
       def query type, property, property_value
@@ -30,9 +30,9 @@ module Fairdom
 
       def query_command type, property, property_value
         command = @init_command
-        command +=  " -t #{type}"
-        command += " -p #{property}"
-        command += " -pv #{property_value}"
+        command +=  " -t #{type.dump}"
+        command += " -p #{property.dump}"
+        command += " -pv #{property_value.dump}"
         command
       end
 

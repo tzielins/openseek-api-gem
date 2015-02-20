@@ -42,7 +42,7 @@ class QueryTest < Test::Unit::TestCase
 
   def test_query_no_result
     instance = Query.new(@username, @password, @endpoint)
-    property_value = 'Some\ value'
+    property_value = 'Some value'
     result = instance.query(@type, @property, property_value)
 
     assert result.empty?
