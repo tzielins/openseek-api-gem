@@ -35,7 +35,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  coveralls (~> 0.7.10)
+  coveralls
   open4 (= 1.3.0)
   openbis-api-gem!
   rake (= 10.4.2)
