@@ -1,7 +1,9 @@
 require 'test/unit'
-require 'openbis-api-gem'
+
 require 'coveralls'
 Coveralls.wear!
+
+require 'openbis-api-gem'
 
 class QueryTest < Test::Unit::TestCase
 
