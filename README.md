@@ -12,10 +12,10 @@ Java 1.8 (JRE) is required.
 
 ## Usage
 
-* Use to query entities in openbis, filtered on a property with a defined property value 
+* Use to query entities in Openbis, filtered on a property with a defined property value 
 * Entity type is for example Experiment, Sample, DataSet
 * Property is normally the SEEK_ID, which is used to map Openbis entity with SEEK entity.
 
-  include Fairdom::OpenbisApi  
-  instance = Fairdom::OpenbisApi::Query.new(username, password, endpoint)
-  json_result = instance.query(type, property, property_value)
+    include Fairdom::OpenbisApi
+    instance = Fairdom::OpenbisApi::Query.new(username, password, endpoint)
+    json_result = instance.query(type, property, property_value)
