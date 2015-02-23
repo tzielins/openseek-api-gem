@@ -1,8 +1,8 @@
-require 'test/unit'
-
+ENV['RAILS_ENV'] ||= 'test'
 require 'coveralls'
 Coveralls.wear!
 
+require 'test/unit'
 require 'openbis-api-gem'
 
 class QueryTest < Test::Unit::TestCase
