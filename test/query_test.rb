@@ -69,5 +69,4 @@ class QueryTest < Test::Unit::TestCase
       instance.query(@type, empty_property, @property_value)
     end
   end
-
 end
