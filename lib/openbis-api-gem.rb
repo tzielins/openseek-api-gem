@@ -14,25 +14,36 @@ module Fairdom
       JAR_VERSION="0.2.0"
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openbis-api-#{JAR_VERSION}.jar"
       ENDPOINT = 'https://openbis-testing.fair-dom.org/openbis'
+      OPTION_FLAGS = {:type=>"-t",:attribute=>"-a",:attribute_value=>"-av",:property=>"-p",:property_value=>"-pv"}
+
+      attr_reader :start_command
 
       def initialize(username, password, endpoint=nil)
         endpoint ||= ENDPOINT
-        @init_command = "java -jar #{DEFAULT_PATH}"
-        @init_command +=  " -e #{endpoint}"
-        @init_command +=  " -u #{username.dump}"
-        @init_command +=  " -pw #{password.dump}"
+        @start_command = "java -jar #{DEFAULT_PATH}"
+        @start_command +=  " -e #{endpoint}"
+        @start_command +=  " -u #{username.dump}"
+        @start_command +=  " -pw #{password.dump}"
       end
 
-      def query type, property, property_value
-        command = query_command type, property, property_value
+      def query options
+        command = query_command options
         read_with_open4 command
       end
 
-      def query_command type, property, property_value
-        command = @init_command
-        command +=  " -t #{type.dump}"
-        command += " -p #{property.dump}"
-        command += " -pv #{property_value.dump}"
+      def query_command options
+
+
+
+        command = start_command
+        options.keys.each do |key|
+          flag = OPTION_FLAGS[key]
+          if flag
+            command << " #{flag} #{options[key].dump}"
+          else
+            raise "Unknown option #{key}"
+          end
+        end
         command
       end
 
