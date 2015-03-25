@@ -11,7 +11,7 @@ module Fairdom
     end
 
     class Query
-      JAR_VERSION="0.3.0"
+      JAR_VERSION="0.3.1"
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openbis-api-#{JAR_VERSION}.jar"
       ENDPOINT = 'https://openbis-testing.fair-dom.org/openbis'
       OPTION_FLAGS = {:type=>"-t",:attribute=>"-a",:attribute_value=>"-av",:property=>"-p",:property_value=>"-pv"}
