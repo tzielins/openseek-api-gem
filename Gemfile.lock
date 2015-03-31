@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    openbis-api-gem (0.3.2)
+    openbis-api-gem (0.4.1)
 
 GEM
   remote: http://rubygems.org/
