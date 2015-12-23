@@ -5,12 +5,13 @@ Coveralls.wear!
 require 'test/unit'
 require 'openbis-api-gem'
 
-class QueryTest < Test::Unit::TestCase
+class ApplicationServerQueryTest < Test::Unit::TestCase
 
   include Fairdom::OpenbisApi
 
   def setup
-    @endpoint = 'https://openbis-testing.fair-dom.org/openbis'
+    @as_endpoint = 'https://openbis-testing.fair-dom.org/openbis/openbis'
+    @dss_endpoint = 'https://openbis-testing.fair-dom.org:444/datastore_server'
     @username = 'api-user'
     @password = 'api-user'
     @type = 'Experiment'
@@ -19,25 +20,25 @@ class QueryTest < Test::Unit::TestCase
   end
 
   def test_successful_authentication
-    instance = Query.new(@username, @password, @endpoint)
+    instance = ApplicationServerQuery.new(@username, @password, @as_endpoint, @dss_endpoint)
     result = instance.query(@type, @property, @property_value)
     assert_not_nil result
   end
 
   def test_failed_authentication
     invalid_password = "blabla"
-    instance = Query.new(@username, invalid_password, @endpoint)
+    instance = ApplicationServerQuery.new(@username, invalid_password, @as_endpoint, @dss_endpoint)
     assert_raise OpenbisQueryException do
       instance.query(@type, @property, @property_value)
     end
   end
 
   def test_query
-    instance = Query.new(@username, @password, @endpoint)
+    instance = ApplicationServerQuery.new(@username, @password, @as_endpoint, @dss_endpoint)
     result = instance.query(@type, @property, @property_value)
 
-    first_result = result.first
-    assert_equal(@type, first_result['@type'])
+    first_result = result["objects"].first
+    assert(first_result['@type'].include?(@type))
 
     properties = first_result["properties"]
     assert properties.keys.include?(@property)
@@ -45,15 +46,15 @@ class QueryTest < Test::Unit::TestCase
   end
 
   def test_query_no_result
-    instance = Query.new(@username, @password, @endpoint)
+    instance = ApplicationServerQuery.new(@username, @password, @as_endpoint, @dss_endpoint)
     property_value = 'Some value'
     result = instance.query(@type, @property, property_value)
 
-    assert result.empty?
+    assert_equal 0, result["totalCount"]
   end
 
   def test_invalid_type
-    instance = Query.new(@username, @password, @endpoint)
+    instance = ApplicationServerQuery.new(@username, @password, @as_endpoint, @dss_endpoint)
     invalid_type = 'SomeType'
 
     assert_raise OpenbisQueryException do
@@ -62,7 +63,7 @@ class QueryTest < Test::Unit::TestCase
   end
 
   def test_empty_parameter
-    instance = Query.new(@username, @password, @endpoint)
+    instance = ApplicationServerQuery.new(@username, @password, @as_endpoint, @dss_endpoint)
     empty_property = ' '
 
     assert_raise OpenbisQueryException do

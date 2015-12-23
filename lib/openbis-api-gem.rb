@@ -10,18 +10,11 @@ module Fairdom
     class OpenbisQueryException < Exception
     end
 
-    class Query
-      JAR_VERSION="0.2.0"
+    module Common
+      JAR_VERSION="0.3.0"
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openbis-api-#{JAR_VERSION}.jar"
-      ENDPOINT = 'https://openbis-testing.fair-dom.org/openbis'
-
-      def initialize(username, password, endpoint=nil)
-        endpoint ||= ENDPOINT
-        @init_command = "java -jar #{DEFAULT_PATH}"
-        @init_command +=  " -e #{endpoint}"
-        @init_command +=  " -u #{username.dump}"
-        @init_command +=  " -pw #{password.dump}"
-      end
+      AS_ENDPOINT = 'https://openbis-testing.fair-dom.org/openbis/openbis'
+      DSS_ENDPOINT = 'https://openbis-testing.fair-dom.org:444/datastore_server'
 
       def query type, property, property_value
         command = query_command type, property, property_value
@@ -30,13 +23,11 @@ module Fairdom
 
       def query_command type, property, property_value
         command = @init_command
-        command +=  " -t #{type.dump}"
+        command += " -t #{type.dump}"
         command += " -p #{property.dump}"
         command += " -pv #{property_value.dump}"
         command
       end
-
-      private
 
       def read_with_open4 command
         output = ""
@@ -58,6 +49,34 @@ module Fairdom
         end
 
         JSON.parse(output.strip)
+      end
+    end
+
+    class ApplicationServerQuery
+      include Fairdom::OpenbisApi::Common
+
+      def initialize(username, password, as_endpoint=nil, dss_endpoint=nil)
+        as_endpoint ||= AS_ENDPOINT
+        dss_endpoint ||= DSS_ENDPOINT
+        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.ApplicationServerQuery"
+        @init_command += " -ae #{as_endpoint}"
+        @init_command += " -de #{dss_endpoint}"
+        @init_command += " -u #{username.dump}"
+        @init_command += " -pw #{password.dump}"
+      end
+    end
+
+    class DataStoreQuery
+      include Fairdom::OpenbisApi::Common
+
+      def initialize(username, password, as_endpoint=nil, dss_endpoint=nil)
+        as_endpoint ||= AS_ENDPOINT
+        dss_endpoint ||= DSS_ENDPOINT
+        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.DataStoreQuery"
+        @init_command += " -ae #{as_endpoint}"
+        @init_command += " -de #{dss_endpoint}"
+        @init_command += " -u #{username.dump}"
+        @init_command += " -pw #{password.dump}"
       end
     end
   end
