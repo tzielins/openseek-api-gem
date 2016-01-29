@@ -43,6 +43,9 @@ class DataStoreQueryTest < Test::Unit::TestCase
     assert_equal "20151217153943290-5", root_folder["permId"]["dataSetId"]["permId"]
     assert_equal "20151217153943290-5", original_folder["permId"]["dataSetId"]["permId"]
     assert_equal "20151217153943290-5", file["permId"]["dataSetId"]["permId"]
+
+    filesize = 25
+    assert_equal filesize, file["fileLength"]
   end
 
   def test_query_no_result
