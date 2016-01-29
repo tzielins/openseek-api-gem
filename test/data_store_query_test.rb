@@ -3,7 +3,7 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'test/unit'
-require 'openbis-api-gem'
+require 'openseek-api-gem'
 
 class DataStoreQueryTest < Test::Unit::TestCase
 

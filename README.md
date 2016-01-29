@@ -1,14 +1,14 @@
-[![Build Status](https://travis-ci.org/FAIRdom/openbis-api-gem.png?branch=master)](https://travis-ci.org/FAIRdom/openbis-api-gem)
+[![Build Status](https://travis-ci.org/FAIRdom/openseek-api-gem.png?branch=master)](https://travis-ci.org/FAIRdom/openseek-api-gem)
 
-[![Coverage Status](https://coveralls.io/repos/FAIRdom/openbis-api-gem/badge.svg)](https://coveralls.io/r/FAIRdom/openbis-api-gem)
+[![Coverage Status](https://coveralls.io/repos/FAIRdom/openseek-api-gem/badge.svg)](https://coveralls.io/r/FAIRdom/openseek-api-gem)
 
-[![Code Climate](https://codeclimate.com/github/FAIRdom/openbis-api-gem/badges/gpa.svg)](https://codeclimate.com/github/FAIRdom/openbis-api-gem)
+[![Code Climate](https://codeclimate.com/github/FAIRdom/openseek-api-gem/badges/gpa.svg)](https://codeclimate.com/github/FAIRdom/openseek-api-gem)
 
 ## Installation
 
 Java 1.8 (JRE) is required.
 
-  gem "openbis-api-gem", :git=>"https://github.com/FAIRdom/openbis-api-gem.git"
+  gem "openseek-api-gem", :git=>"https://github.com/FAIRdom/openseek-api-gem.git"
 
 ## Usage
 

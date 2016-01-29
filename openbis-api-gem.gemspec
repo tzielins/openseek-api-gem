@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "openbis-api-gem/version"
+require "openseek-api-gem/version"
 
 Gem::Specification.new do |s|
-  s.name        = "openbis-api-gem"
+  s.name        = "openseek-api-gem"
   s.version     = Openbis::Api::Gem::VERSION
   s.authors     = ["quyen"]
   s.email       = ["thucquyendn@gmail.com"]
@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{ruby gem to talk to openbis-api java}
   s.description = %q{ruby gem to talk to openbis-api java}
 
-  s.rubyforge_project = "openbis-api-gem"
+  s.rubyforge_project = "openseek-api-gem"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

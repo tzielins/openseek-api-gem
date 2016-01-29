@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require "openbis-api-gem/version"
+require "openseek-api-gem/version"
 require 'open4'
 require 'json'
 
@@ -12,7 +12,7 @@ module Fairdom
 
     module Common
       JAR_VERSION="S220"
-      DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openbis-api-#{JAR_VERSION}.jar"
+      DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
       AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
       DSS_ENDPOINT = 'https://openbis-api.fair-dom.org:444/datastore_server'
 
