@@ -11,10 +11,10 @@ module Fairdom
     end
 
     module Common
-      JAR_VERSION="0.3.0"
+      JAR_VERSION="S220"
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openbis-api-#{JAR_VERSION}.jar"
-      AS_ENDPOINT = 'https://openbis-testing.fair-dom.org/openbis/openbis'
-      DSS_ENDPOINT = 'https://openbis-testing.fair-dom.org:444/datastore_server'
+      AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
+      DSS_ENDPOINT = 'https://openbis-api.fair-dom.org:444/datastore_server'
 
       def query type, property, property_value
         command = query_command type, property, property_value

@@ -10,8 +10,8 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
   include Fairdom::OpenbisApi
 
   def setup
-    @as_endpoint = 'https://openbis-testing.fair-dom.org/openbis/openbis'
-    @dss_endpoint = 'https://openbis-testing.fair-dom.org:444/datastore_server'
+    @as_endpoint = 'https://openbis-api.fair-dom.org/openbis/openbis'
+    @dss_endpoint = 'https://openbis-api.fair-dom.org:444/datastore_server'
     @username = 'api-user'
     @password = 'api-user'
     @type = 'Experiment'
