@@ -11,9 +11,9 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
 
   def setup
     @as_endpoint = 'https://openbis-api.fair-dom.org/openbis/openbis'
-    @dss_endpoint = 'https://openbis-api.fair-dom.org:444/datastore_server'
-    @username = 'api-user'
-    @password = 'api-user'
+    @dss_endpoint = 'https://openbis-api.fair-dom.org/datastore_server'
+    @username = 'apiuser'
+    @password = 'apiuser'
     @type = 'Experiment'
     @property = 'SEEK_STUDY_ID'
     @property_value = 'Study_1'

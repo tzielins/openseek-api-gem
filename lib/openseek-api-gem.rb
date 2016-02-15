@@ -14,7 +14,7 @@ module Fairdom
       JAR_VERSION="S220"
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
       AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
-      DSS_ENDPOINT = 'https://openbis-api.fair-dom.org:444/datastore_server'
+      DSS_ENDPOINT = 'https://openbis-api.fair-dom.org/datastore_server'
 
       def query type, property, property_value
         command = query_command type, property, property_value
