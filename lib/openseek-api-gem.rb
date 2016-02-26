@@ -45,10 +45,27 @@ module Fairdom
         end
 
         if status.to_i != 0
-          raise OpenbisQueryException.new(err_message)
+          raise OpenbisQueryException.new(output + " " + err_message)
         end
 
         JSON.parse(output.strip)
+      end
+    end
+
+    class Authentication
+      include Fairdom::OpenbisApi::Common
+
+      def initialize(username, password, as_endpoint=nil)
+        as_endpoint ||= AS_ENDPOINT
+        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.Authentication"
+        @init_command += " -account {%username%:%#{username}%\,%password%:%#{password}%}"
+
+        @init_command += " -endpoints {%as%:%#{as_endpoint}%}"
+      end
+
+      def login
+        command = @init_command
+        read_with_open4 command
       end
     end
 
