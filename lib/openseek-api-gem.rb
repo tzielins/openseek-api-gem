@@ -16,19 +16,6 @@ module Fairdom
       AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
       DSS_ENDPOINT = 'https://openbis-api.fair-dom.org/datastore_server'
 
-      def query type, property, property_value
-        command = query_command type, property, property_value
-        read_with_open4 command
-      end
-
-      def query_command type, property, property_value
-        command = @init_command
-        command += " -t #{type.dump}"
-        command += " -p #{property.dump}"
-        command += " -pv #{property_value.dump}"
-        command
-      end
-
       def read_with_open4 command
         output = ""
         err_message = ""
@@ -72,14 +59,29 @@ module Fairdom
     class ApplicationServerQuery
       include Fairdom::OpenbisApi::Common
 
-      def initialize(username, password, as_endpoint=nil, dss_endpoint=nil)
+      def initialize(as_endpoint=nil, token)
         as_endpoint ||= AS_ENDPOINT
         dss_endpoint ||= DSS_ENDPOINT
         @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.ApplicationServerQuery"
-        @init_command += " -ae #{as_endpoint}"
-        @init_command += " -de #{dss_endpoint}"
-        @init_command += " -u #{username.dump}"
-        @init_command += " -pw #{password.dump}"
+        @init_command += " -endpoints {%as%:%#{as_endpoint}%\,%sessionToken%:%#{token}%}"
+
+      end
+
+      def query entity_type, query_type, property, property_value
+        command = query_command entity_type, query_type, property, property_value
+        read_with_open4 command
+      end
+
+      def query_command entity_type, query_type, property, property_value
+        command = @init_command
+        command += " -query {"
+        command += "%entityType%:%#{entity_type}%\,"
+        command += "%queryType%:%#{query_type}%\,"
+        command += "%property%:%#{property}%\,"
+        command += "%propertyValue%:%#{property_value}%"
+        command += "}"
+        command
+
       end
     end
 
