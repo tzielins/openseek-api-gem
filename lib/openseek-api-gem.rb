@@ -112,5 +112,31 @@ module Fairdom
 
       end
     end
+
+    class DataStoreDownload
+      include Fairdom::OpenbisApi::Common
+
+      def initialize(dss_endpoint=nil, token)
+        dss_endpoint ||= DSS_ENDPOINT
+        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.DataStoreDownload"
+        @init_command += " -endpoints {%dss%:%#{dss_endpoint}%\,%sessionToken%:%#{token}%}"
+      end
+
+      def download_command type="file", perm_id, source, dest
+        command = @init_command
+        command += " -download {"
+        command += "%type%:%#{type}%\,"
+        command += "%permID%:%#{perm_id}%\,"
+        command += "%source%:%#{source}%\,"
+        command += "%dest%:%#{dest}%"
+        command += "}"
+        command
+      end
+
+      def download type="file", perm_id, source, dest
+        command = download_command type, perm_id, source, dest
+        read_with_open4 command
+      end
+    end
   end
 end
