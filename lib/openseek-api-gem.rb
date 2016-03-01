@@ -16,6 +16,8 @@ module Fairdom
       AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
       DSS_ENDPOINT = 'https://openbis-api.fair-dom.org/datastore_server'
 
+      attr_reader :init_command
+
       def read_with_open4 command
         output = ""
         err_message = ""
