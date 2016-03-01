@@ -10,49 +10,28 @@ class DataStoreQueryTest < Test::Unit::TestCase
   include Fairdom::OpenbisApi
 
   def setup
-    @as_endpoint = 'https://openbis-api.fair-dom.org/openbis/openbis'
     @dss_endpoint = 'https://openbis-api.fair-dom.org/datastore_server'
-    @username = 'apiuser'
-    @password = 'apiuser'
-    @type = 'DataSetFile'
+    username = 'apiuser'
+    password = 'apiuser'
+    @token = Authentication.new(username, password, @as_endpoint).login["token"]
+
+    @query_type = 'PROPERTY'
+    @entity_type = 'DataSetFile'
     @property = 'SEEK_DATAFILE_ID'
     @property_value = 'DataFile_1'
   end
 
   def test_query
-    instance = DataStoreQuery.new(@username, @password, @as_endpoint, @dss_endpoint)
-    result = instance.query(@type, @property, @property_value)
-
-    first_result = result["objects"].first
-    assert(first_result['@type'].include?(@type))
-
-    assert_equal 3, result["totalCount"]
-
-    root_folder = result["objects"].first
-    original_folder = result["objects"][1]
-    file = result["objects"].last
-
-    assert root_folder["isDirectory"]
-    assert original_folder["isDirectory"]
-    assert !file["isDirectory"]
-
-    assert_equal "", root_folder["path"]
-    assert_equal "original", original_folder["path"]
-    assert_equal "original/api-test", file["path"]
-
-    assert_equal "20151217153943290-5", root_folder["permId"]["dataSetId"]["permId"]
-    assert_equal "20151217153943290-5", original_folder["permId"]["dataSetId"]["permId"]
-    assert_equal "20151217153943290-5", file["permId"]["dataSetId"]["permId"]
-
-    filesize = 25
-    assert_equal filesize, file["fileLength"]
+    instance = DataStoreQuery.new(@dss_endpoint, @token)
+    result = instance.query(@entity_type, @query_type, @property, @property_value)
+    assert !result["datasetfiles"].empty?
   end
 
   def test_query_no_result
-    instance = DataStoreQuery.new(@username, @password, @as_endpoint, @dss_endpoint)
-    property_value = 'Some value'
-    result = instance.query(@type, @property, property_value)
+    instance = DataStoreQuery.new(@dss_endpoint, @token)
+    property_value = 'Some_value'
+    result = instance.query(@entity_type, @query_type, @property, property_value)
 
-    assert_equal 0, result["totalCount"]
+    assert result.empty?
   end
 end
