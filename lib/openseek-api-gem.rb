@@ -15,8 +15,26 @@ module Fairdom
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
       AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
       DSS_ENDPOINT = 'https://openbis-api.fair-dom.org/datastore_server'
+      OPTION_FLAGS = {:entityType=>"",:queryType=>"",:attribute=>"",:attributeValue=>"",:property=>"",:propertyValue=>"",
+                      :downloadType=>"",:permID=>"",:source=>"",:dest=>""}
 
       attr_reader :init_command
+
+      def query options
+        command = @init_command
+        command += " -query {"
+        command += command_from_options options
+        command += "}"
+        read_with_open4 command
+      end
+
+      def command_from_options options
+        command = []
+        options.keys.each do |key|
+          command << "%#{key}%:%#{options[key]}%"
+        end
+        command.join("\,")
+      end
 
       def read_with_open4 command
         output = ""
@@ -67,23 +85,6 @@ module Fairdom
         @init_command += " -endpoints {%as%:%#{as_endpoint}%\,%sessionToken%:%#{token}%}"
 
       end
-
-      def query entity_type, query_type, property, property_value
-        command = query_command entity_type, query_type, property, property_value
-        read_with_open4 command
-      end
-
-      def query_command entity_type, query_type, property, property_value
-        command = @init_command
-        command += " -query {"
-        command += "%entityType%:%#{entity_type}%\,"
-        command += "%queryType%:%#{query_type}%\,"
-        command += "%property%:%#{property}%\,"
-        command += "%propertyValue%:%#{property_value}%"
-        command += "}"
-        command
-
-      end
     end
 
     class DataStoreQuery
@@ -93,23 +94,6 @@ module Fairdom
         dss_endpoint ||= DSS_ENDPOINT
         @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.DataStoreQuery"
         @init_command += " -endpoints {%dss%:%#{dss_endpoint}%\,%sessionToken%:%#{token}%}"
-      end
-
-      def query entity_type, query_type, property, property_value
-        command = query_command entity_type, query_type, property, property_value
-        read_with_open4 command
-      end
-
-      def query_command entity_type, query_type, property, property_value
-        command = @init_command
-        command += " -query {"
-        command += "%entityType%:%#{entity_type}%\,"
-        command += "%queryType%:%#{query_type}%\,"
-        command += "%property%:%#{property}%\,"
-        command += "%propertyValue%:%#{property_value}%"
-        command += "}"
-        command
-
       end
     end
 
@@ -122,19 +106,11 @@ module Fairdom
         @init_command += " -endpoints {%dss%:%#{dss_endpoint}%\,%sessionToken%:%#{token}%}"
       end
 
-      def download_command type="file", perm_id, source, dest
+      def download options
         command = @init_command
         command += " -download {"
-        command += "%type%:%#{type}%\,"
-        command += "%permID%:%#{perm_id}%\,"
-        command += "%source%:%#{source}%\,"
-        command += "%dest%:%#{dest}%"
+        command += command_from_options options
         command += "}"
-        command
-      end
-
-      def download type="file", perm_id, source, dest
-        command = download_command type, perm_id, source, dest
         read_with_open4 command
       end
     end

@@ -23,27 +23,24 @@ class DataStoreDownloadTest < Test::Unit::TestCase
 
   def test_download_file
     instance = DataStoreDownload.new(@dss_endpoint, @token)
-    type = 'file'
-    perm_id = '20160210130359377-22'
-    source = "original/utf8.txt"
     dest = @dest_folder + 'utf8.txt'
+    options = {:downloadType=>"file",:permID=>"20160210130359377-22",:source=>"original/utf8.txt",:dest=>dest}
     if File.exist?(dest)
       FileUtils.remove_file(dest)
     end
-    result = instance.download(type, perm_id, source, dest)
+    result = instance.download(options)
     assert File.exist?(dest)
   end
 
   def test_download_folder
     instance = DataStoreDownload.new(@dss_endpoint, @token)
-    type = "folder"
-    perm_id = "20160215111736723-31"
     source = "original/DEFAULT"
     dest = @dest_folder
+    options = {:downloadType=>"folder",:permID=>"20160215111736723-31",:source=>source,:dest=>dest}
     if File.exist?(dest + source)
       FileUtils.remove_dir(dest + source)
     end
-    result = instance.download(type, perm_id, source, dest)
+    result = instance.download(options)
     assert File.exist?(dest + source)
     assert File.exist?(dest + source + "/fairdom-logo-compact.svg")
     assert File.exist?(dest + source + "/Stanford_et_al-2015-Molecular_Systems_Biology.pdf")
@@ -51,14 +48,13 @@ class DataStoreDownloadTest < Test::Unit::TestCase
 
   def test_download_dataset_files
     instance = DataStoreDownload.new(@dss_endpoint, @token)
-    type = "dataset"
-    perm_id = "20151217153943290-5"
     source = "original"
     dest = @dest_folder
+    options = {:downloadType=>"dataset",:permID=>"20151217153943290-5",:source=>source,:dest=>dest}
     if File.exist?(dest + source)
       FileUtils.remove_dir(dest + source)
     end
-    result = instance.download(type, perm_id, source, dest)
+    result = instance.download(options)
     assert File.exist?(dest + source)
     assert File.exist?(dest + source + "/api-test")
   end

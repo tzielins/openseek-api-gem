@@ -15,47 +15,53 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     password = 'apiuser'
     @token = Authentication.new(username, password, @as_endpoint).login["token"]
 
-    @entity_type = 'Experiment'
-    @query_type = 'PROPERTY'
-    @property = 'SEEK_STUDY_ID'
-    @property_value = 'Study_1'
-
+    @options = {:entityType=>"Experiment",:queryType=>"PROPERTY",:property=>"SEEK_STUDY_ID",:propertyValue=>"Study_1"}
   end
 
-  def test_query
+  def test_query_property
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
-    result = instance.query(@entity_type, @query_type, @property, @property_value)
+    result = instance.query(@options)
     experiments = result["experiments"]
     assert !experiments.empty?
   end
 
-  def test_query_no_result
+  def test_query_property_no_result
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
-    property_value = 'Some_value'
-    result = instance.query(@entity_type, @query_type, @property, property_value)
+    @options[:propertyValue] = 'Some_value'
+    result = instance.query(@options)
     assert result.empty?
   end
 
   def test_unrecognized_type
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     invalid_type = 'SomeType'
-
+    @options[:entityType] = 'Some_value'
     assert_raise OpenbisQueryException do
-      instance.query(invalid_type, @query_type, @property, @property_value)
+      instance.query(@options)
     end
   end
 
   def test_empty_property
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
-    empty_property = ''
-    result = instance.query(@entity_type, @query_type, 'empty_property', @property_value)
+    @options[:property] = ''
+    result = instance.query(@options)
     assert result.empty?
   end
 
   def test_any_property
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
-    any_property = 'any_property'
-    result = instance.query(@entity_type, @query_type, any_property, @property_value)
+    @options[:property] = 'any_property'
+    result = instance.query(@options)
     assert result.empty?
+  end
+
+  def test_query_perm_id_attribute
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    @options[:queryType]='ATTRIBUTE'
+    @options[:attribute]='permId'
+    @options[:attributeValue]='20151216143716562-2'
+    result = instance.query(@options)
+    experiments = result["experiments"]
+    assert !experiments.empty?
   end
 end
