@@ -42,6 +42,15 @@ class DataStoreQueryTest < Test::Unit::TestCase
     assert !result["datasetfiles"].empty?
   end
 
+  def test_query_all_permid
+    instance = DataStoreQuery.new(@dss_endpoint, @token)
+    @options[:queryType] = "ATTRIBUTE"
+    @options[:attribute] = "PermID"
+    @options[:attributeValue] = ""
+    result = instance.query(@options)
+    assert !result["datasetfiles"].empty?
+  end
+
   def test_query_no_result
     instance = DataStoreQuery.new(@dss_endpoint, @token)
     @options[:propertyValue] = 'Some_value'

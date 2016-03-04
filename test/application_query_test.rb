@@ -74,4 +74,13 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     experiments = result["experiments"]
     assert !experiments.empty?
   end
+
+  def test_query_all_permid
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    @options[:queryType] = "ATTRIBUTE"
+    @options[:attribute] = "PermID"
+    @options[:attributeValue] = ""
+    result = instance.query(@options)
+    assert !result["experiments"].empty?
+  end
 end
