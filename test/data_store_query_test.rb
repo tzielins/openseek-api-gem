@@ -24,6 +24,24 @@ class DataStoreQueryTest < Test::Unit::TestCase
     assert !result["datasetfiles"].empty?
   end
 
+  def test_query_permid_attribute
+    instance = DataStoreQuery.new(@dss_endpoint, @token)
+    @options[:queryType] = "ATTRIBUTE"
+    @options[:attribute] = "PermID"
+    @options[:attributeValue] = "20151217153943290-5"
+    result = instance.query(@options)
+    assert !result["datasetfiles"].empty?
+  end
+
+  def test_query_multiple_permid_attribute_values
+    instance = DataStoreQuery.new(@dss_endpoint, @token)
+    @options[:queryType] = "ATTRIBUTE"
+    @options[:attribute] = "PermID"
+    @options[:attributeValue] = "20151217153943290-5,20160210130359377-22"
+    result = instance.query(@options)
+    assert !result["datasetfiles"].empty?
+  end
+
   def test_query_no_result
     instance = DataStoreQuery.new(@dss_endpoint, @token)
     @options[:propertyValue] = 'Some_value'
