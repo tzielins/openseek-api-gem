@@ -32,6 +32,18 @@ class DataStoreDownloadTest < Test::Unit::TestCase
     assert File.exist?(dest)
   end
 
+  def test_download_file_with_space_in_name
+    instance = DataStoreDownload.new(@dss_endpoint, @token)
+    dest = @dest_folder + 'Genes List Nature Paper Test.docx'
+    options = {:downloadType=>"file",:permID=>"20160322172551664-35",:source=>"original/Genes List Nature Paper Test.docx",:dest=>dest}
+    if File.exist?(dest)
+      FileUtils.remove_file(dest)
+    end
+    result = instance.download(options)
+    assert File.exist?(dest)
+  end
+
+
   def test_download_folder
     instance = DataStoreDownload.new(@dss_endpoint, @token)
     source = "original/DEFAULT"

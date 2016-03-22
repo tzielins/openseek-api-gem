@@ -31,7 +31,8 @@ module Fairdom
       def command_from_options options
         command = []
         options.keys.each do |key|
-          command << "%#{key}%:%#{options[key]}%"
+          value = options[key].gsub(" ", "+")
+          command << "%#{key}%:%#{value}%"
         end
         command.join("\,")
       end
