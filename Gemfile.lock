@@ -4,7 +4,7 @@ PATH
     openseek-api-gem (0.2.0)
 
 GEM
-  remote: http://rubygems.org/
+  remote: https://rubygems.org/
   specs:
     coveralls (0.7.10)
       multi_json (~> 1.10)
@@ -41,4 +41,4 @@ DEPENDENCIES
   rake (= 10.4.2)
 
 BUNDLED WITH
-   1.10.6
+   1.13.6

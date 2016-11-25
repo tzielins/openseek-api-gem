@@ -5,7 +5,7 @@ sudo: false
 cache: bundler
 
 rvm:
-  - 2.1.5
+  - 2.1.9
 
 jdk:
   - oraclejdk8
