@@ -11,7 +11,7 @@ module Fairdom
     end
 
     module Common
-      JAR_VERSION="S220"
+      JAR_VERSION="16.05"
       DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
       AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
       DSS_ENDPOINT = 'https://openbis-api.fair-dom.org/datastore_server'
