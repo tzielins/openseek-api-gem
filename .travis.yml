@@ -9,6 +9,9 @@ rvm:
 
 jdk:
   - oraclejdk8
+  - oraclejdk7
+  - openjdk8
+  - openjdk7
 
 script:
   - RAILS_ENV=test bundle exec rake test
