@@ -22,15 +22,23 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     result = instance.query(@options)
     experiments = result["experiments"]
-    assert !experiments.empty?
+    refute experiments.empty?
   end
 
   def test_query_for_spaces
     @options = {:entityType=>"Space",:queryType=>"ATTRIBUTE",:attribute=>'PermID',:attributeValue=>""}
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     result = instance.query(@options)
-    pp result.inspect
-    refute result.empty?
+    spaces=result["spaces"]
+    refute spaces.empty?
+    assert_equal 2,spaces.count
+    space=spaces[1][0] #this is broken and will need fixing
+    assert_equal "API-SPACE", space["code"]
+    assert_equal "use for testing openbis api integration",space["description"].strip
+
+    space=spaces[1][1]
+    assert_equal "DEFAULT", space["code"]
+    assert_nil space["description"]
   end
 
   def test_query_property_no_result
@@ -70,7 +78,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     @options[:attributeValue]='20151216143716562-2'
     result = instance.query(@options)
     experiments = result["experiments"]
-    assert !experiments.empty?
+    refute experiments.empty?
   end
 
   def test_query_multiple_perm_id_attribute_values
@@ -80,7 +88,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     @options[:attributeValue]='20151216112932823-1,20151216143716562-2'
     result = instance.query(@options)
     experiments = result["experiments"]
-    assert !experiments.empty?
+    refute experiments.empty?
   end
 
   def test_query_all_permid
@@ -89,6 +97,6 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     @options[:attribute] = "PermID"
     @options[:attributeValue] = ""
     result = instance.query(@options)
-    assert !result["experiments"].empty?
+    refute result["experiments"].empty?
   end
 end

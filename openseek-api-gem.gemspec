@@ -11,14 +11,16 @@ Gem::Specification.new do |s|
   s.summary     = %q{ruby gem to talk to openbis-api java}
   s.description = %q{ruby gem to talk to openbis-api java}
 
-  s.rubyforge_project = "openseek-api-gem"
-
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
   # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  s.add_development_dependency("coveralls", ['>= 0'])
+  s.add_development_dependency('rubocop', ['>= 0'])
+  s.add_development_dependency('rubycritic', ['>= 0'])
+
+  s.add_dependency("open4","1.3.0")
+  s.add_dependency("rake","10.4.2")
 end
