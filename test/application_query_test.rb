@@ -25,6 +25,14 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert !experiments.empty?
   end
 
+  def test_query_for_spaces
+    @options = {:entityType=>"Space",:queryType=>"ATTRIBUTE",:attribute=>'PermID',:attributeValue=>""}
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+    pp result.inspect
+    refute result.empty?
+  end
+
   def test_query_property_no_result
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     @options[:propertyValue] = 'Some_value'
