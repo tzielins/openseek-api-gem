@@ -32,11 +32,11 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     spaces=result["spaces"]
     refute spaces.empty?
     assert_equal 2,spaces.count
-    space=spaces[1][0] #this is broken and will need fixing
+    space=spaces[0]
     assert_equal "API-SPACE", space["code"]
     assert_equal "use for testing openbis api integration",space["description"].strip
 
-    space=spaces[1][1]
+    space=spaces[1]
     assert_equal "DEFAULT", space["code"]
     assert_nil space["description"]
   end

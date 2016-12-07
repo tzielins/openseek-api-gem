@@ -11,8 +11,8 @@ module Fairdom
     end
 
     module Common
-      JAR_VERSION="0.5.1"
-      DEFAULT_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
+      JAR_VERSION="0.6"
+      JAR_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
       AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
       DSS_ENDPOINT = 'https://openbis-api.fair-dom.org/datastore_server'
       OPTION_FLAGS = {:entityType=>"",:queryType=>"",:attribute=>"",:attributeValue=>"",:property=>"",:propertyValue=>"",
@@ -58,6 +58,11 @@ module Fairdom
 
         JSON.parse(output.strip)
       end
+
+      #the root of the command call, without the options
+      def java_root_command
+        "java -jar #{JAR_PATH}"
+      end
     end
 
     class Authentication
@@ -65,7 +70,7 @@ module Fairdom
 
       def initialize(username, password, as_endpoint=nil)
         as_endpoint ||= AS_ENDPOINT
-        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.Authentication"
+        @init_command = java_root_command
         @init_command += " -account {%username%:%#{username}%\,%password%:%#{password}%}"
 
         @init_command += " -endpoints {%as%:%#{as_endpoint}%}"
@@ -82,7 +87,7 @@ module Fairdom
 
       def initialize(as_endpoint=nil, token)
         as_endpoint ||= AS_ENDPOINT
-        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.ApplicationServerQuery"
+        @init_command = java_root_command
         @init_command += " -endpoints {%as%:%#{as_endpoint}%\,%sessionToken%:%#{token}%}"
 
       end
@@ -93,7 +98,7 @@ module Fairdom
 
       def initialize(dss_endpoint=nil, token)
         dss_endpoint ||= DSS_ENDPOINT
-        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.DataStoreQuery"
+        @init_command = java_root_command
         @init_command += " -endpoints {%dss%:%#{dss_endpoint}%\,%sessionToken%:%#{token}%}"
       end
     end
@@ -103,7 +108,7 @@ module Fairdom
 
       def initialize(dss_endpoint=nil, token)
         dss_endpoint ||= DSS_ENDPOINT
-        @init_command = "java -cp #{DEFAULT_PATH} org.fairdom.DataStoreDownload"
+        @init_command = java_root_command
         @init_command += " -endpoints {%dss%:%#{dss_endpoint}%\,%sessionToken%:%#{token}%}"
       end
 
