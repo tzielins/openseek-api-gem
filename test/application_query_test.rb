@@ -35,7 +35,17 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     space=spaces[0]
     assert_equal "API-SPACE", space["code"]
     assert_equal "use for testing openbis api integration",space["description"].strip
+    experiments = space["experiments"]
+    assert_equal 1,experiments.size
+    assert_equal ["20151216143716562-2"],experiments
 
+    projects = space["projects"]
+    assert_equal ["20151216135152196-1"],projects
+
+    datasets = space["datasets"]
+    assert_equal 8,datasets.size
+    assert_includes datasets,"20160210130359377-22"
+    
     space=spaces[1]
     assert_equal "DEFAULT", space["code"]
     assert_nil space["description"]
