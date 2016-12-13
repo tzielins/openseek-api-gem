@@ -13,7 +13,7 @@ jdk:
   - openjdk7
 
 script:
-  - RAILS_ENV=test bundle exec rake test
+  - bundle exec rake test
 
 notifications:
   slack:
