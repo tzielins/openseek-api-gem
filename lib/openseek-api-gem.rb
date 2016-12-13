@@ -13,8 +13,6 @@ module Fairdom
     module Common
       JAR_VERSION="0.8"
       JAR_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
-      AS_ENDPOINT = 'https://openbis-api.fair-dom.org/openbis/openbis'
-      DSS_ENDPOINT = 'https://openbis-api.fair-dom.org/datastore_server'
       OPTION_FLAGS = {:entityType=>"",:queryType=>"",:attribute=>"",:attributeValue=>"",:property=>"",:propertyValue=>"",
                       :downloadType=>"",:permID=>"",:source=>"",:dest=>""}
 
@@ -68,8 +66,7 @@ module Fairdom
     class Authentication
       include Fairdom::OpenbisApi::Common
 
-      def initialize(username, password, as_endpoint=nil)
-        as_endpoint ||= AS_ENDPOINT
+      def initialize(username, password, as_endpoint)
         @init_command = java_root_command
         @init_command += " -account {%username%:%#{username}%\,%password%:%#{password}%}"
 
@@ -85,8 +82,7 @@ module Fairdom
     class ApplicationServerQuery
       include Fairdom::OpenbisApi::Common
 
-      def initialize(as_endpoint=nil, token)
-        as_endpoint ||= AS_ENDPOINT
+      def initialize(as_endpoint, token)
         @init_command = java_root_command
         @init_command += " -endpoints {%as%:%#{as_endpoint}%\,%sessionToken%:%#{token}%}"
 
@@ -96,8 +92,7 @@ module Fairdom
     class DataStoreQuery
       include Fairdom::OpenbisApi::Common
 
-      def initialize(dss_endpoint=nil, token)
-        dss_endpoint ||= DSS_ENDPOINT
+      def initialize(dss_endpoint, token)
         @init_command = java_root_command
         @init_command += " -endpoints {%dss%:%#{dss_endpoint}%\,%sessionToken%:%#{token}%}"
       end
@@ -106,8 +101,7 @@ module Fairdom
     class DataStoreDownload
       include Fairdom::OpenbisApi::Common
 
-      def initialize(dss_endpoint=nil, token)
-        dss_endpoint ||= DSS_ENDPOINT
+      def initialize(dss_endpoint, token)
         @init_command = java_root_command
         @init_command += " -endpoints {%dss%:%#{dss_endpoint}%\,%sessionToken%:%#{token}%}"
       end

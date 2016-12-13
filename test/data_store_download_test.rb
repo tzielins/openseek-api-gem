@@ -10,6 +10,7 @@ class DataStoreDownloadTest < Test::Unit::TestCase
 
   def setup
     @dss_endpoint = 'https://openbis-api.fair-dom.org/datastore_server'
+    @as_endpoint = 'https://openbis-api.fair-dom.org/openbis/openbis'
     username = 'apiuser'
     password = 'apiuser'
     @token = Authentication.new(username, password, @as_endpoint).login['token']
