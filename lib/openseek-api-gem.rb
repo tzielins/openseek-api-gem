@@ -11,7 +11,7 @@ module Fairdom
     end
 
     module Common
-      JAR_VERSION="0.8"
+      JAR_VERSION="0.9"
       JAR_PATH = File.dirname(__FILE__) + "/../jars/openseek-api-#{JAR_VERSION}.jar"
       OPTION_FLAGS = {:entityType=>"",:queryType=>"",:attribute=>"",:attributeValue=>"",:property=>"",:propertyValue=>"",
                       :downloadType=>"",:permID=>"",:source=>"",:dest=>""}
