@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'bundler/setup'
 
-require 'openseek-api-gem/version'
+require 'fairdom/openbis_api/versions'
 require 'fairdom/openbis_api/openbis_query'
 require 'fairdom/openbis_api/openbis_query_exception'
 
