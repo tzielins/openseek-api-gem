@@ -1,27 +1,27 @@
 # -*- encoding: utf-8 -*-
-$:.push File.expand_path("../lib", __FILE__)
+$LOAD_PATH.push File.expand_path('../lib', __FILE__)
 require 'fairdom/openbis_api/versions'
 
-Gem::Specification.new do |s|
-  s.name        = "openseek-api"
-  s.version     = Fairdom::OpenbisApi::VERSION
-  s.authors     = ["quyen"]
-  s.email       = ["thucquyendn@gmail.com"]
-  s.homepage    = ""
-  s.summary     = %q{ruby gem to talk to openbis-api java}
-  s.description = %q{ruby gem to talk to openbis-api java}
+Gem::Specification.new do |spec|
+  spec.name        = 'openseek-api'
+  spec.version     = Fairdom::OpenbisApi::VERSION
+  spec.authors     = ['Stuart Owen', 'Quyen Nguyen']
+  spec.email       = ['thucquyendn@gmail.com']
+  spec.homepage    = 'https://github.com/fairdom/openseek-api-gem'
+  spec.summary     = 'ruby gem to talk to openbis-api java libaries, for use within SEEK4Science'
+  spec.description = 'ruby gem to talk to openbis-api java libaries, for use within SEEK4Science'
 
-  s.files         = `git ls-files`.split("\n")
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
-  s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
-  s.require_paths = ["lib"]
+  spec.files         = `git ls-files`.split("\n")
+  spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
+  spec.executables   = `git ls-files -- bin/*`.split("\n").map { |f| File.basename(f) }
+  spec.require_paths = ['lib']
 
-  # specify any dependencies here; for example:
-  s.add_development_dependency("coveralls", ['>= 0'])
-  s.add_development_dependency('rubocop', ['>= 0'])
-  s.add_development_dependency('rubycritic', ['>= 0'])
-  s.add_development_dependency("rake",['~> 10.0'])
+  # runtime dependencies
+  spec.add_dependency('cocaine', ['>= 0'])
 
-  s.add_dependency('cocaine', ['>= 0'])
-
+  # development dependencies
+  spec.add_development_dependency('coveralls', ['>= 0'])
+  spec.add_development_dependency('rubocop', ['>= 0'])
+  spec.add_development_dependency('rubycritic', ['>= 0'])
+  spec.add_development_dependency('rake', ['~> 10.0'])
 end

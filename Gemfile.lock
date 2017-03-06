@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    openseek-api (0.9.1)
+    openseek-api (0.9.2)
       cocaine
 
 GEM

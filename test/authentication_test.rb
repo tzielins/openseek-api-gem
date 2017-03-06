@@ -3,7 +3,7 @@ require 'coveralls'
 Coveralls.wear!
 
 require 'test/unit'
-require 'openseek-api-gem'
+require 'openseek-api'
 
 class AuthenticationTest < Test::Unit::TestCase
   include Fairdom::OpenbisApi
