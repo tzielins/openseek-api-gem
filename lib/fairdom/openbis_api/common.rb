@@ -6,8 +6,6 @@ module Fairdom
     module Common
       JAR_VERSION = '0.9'.freeze
       JAR_PATH = File.join(File.dirname(__dir__), "../../jars/openseek-api-#{JAR_VERSION}.jar")
-      OPTION_FLAGS = { entityType: '', queryType: '', attribute: '', attributeValue: '', property: '', propertyValue: '',
-                       downloadType: '', permID: '', source: '', dest: '' }.freeze
 
       attr_reader :init_command
 
@@ -21,9 +19,8 @@ module Fairdom
 
       def command_from_options(options)
         command = []
-        options.keys.each do |key|
-          value = options[key].tr(' ', '+')
-          command << "%#{key}%:%#{value}%"
+        options.each do |key,value|
+          command << "%#{key}%:%#{value.tr(' ', '+')}%"
         end
         command.join("\,")
       end
