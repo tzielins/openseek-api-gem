@@ -1,4 +1,4 @@
-require 'open4'
+require 'cocaine'
 require 'json'
 
 module Fairdom
@@ -12,25 +12,10 @@ module Fairdom
 
       def execute(options)
         command = execute_command(options)
-        output = ''
-        err_message = ''
-        status = Open4.popen4(command) do |_pid, _stdin, stdout, stderr|
-          while (line = stdout.gets)
-            output << line
-          end
-          stdout.close
-
-          until (line = stderr.gets).nil?
-            err_message << line
-          end
-          stderr.close
-        end
-
-        if status.to_i != 0
-          raise OpenbisQueryException, output + ' ' + err_message
-        end
-
+        output = Cocaine::CommandLine.new(command).run
         JSON.parse(output.strip)
+      rescue Cocaine::ExitStatusError => exception
+        raise OpenbisQueryException, exception.message
       end
 
       private
@@ -40,11 +25,9 @@ module Fairdom
       end
 
       def command_from_options(options)
-        command = []
-        options.each do |key, value|
-          command << "%#{key}%:%#{value.tr(' ', '+')}%"
-        end
-        command.join("\,")
+        options.collect do |key, value|
+          "%#{key}%:%#{value.tr(' ', '+')}%"
+        end.join("\,")
       end
 
       def java_root_command

@@ -2,8 +2,7 @@ PATH
   remote: .
   specs:
     openseek-api-gem (0.9.0)
-      open4 (= 1.3.0)
-      rake (= 10.4.2)
+      cocaine
 
 GEM
   remote: https://rubygems.org/
@@ -15,6 +14,9 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    climate_control (0.1.0)
+    cocaine (0.5.8)
+      climate_control (>= 0.0.3, < 1.0)
     codeclimate-engine-rb (0.4.0)
       virtus (~> 1.0)
     coercible (1.0.0)
@@ -43,7 +45,6 @@ GEM
     json (2.0.3)
     launchy (2.4.3)
       addressable (~> 2.3)
-    open4 (1.3.0)
     parser (2.3.3.1)
       ast (~> 2.2)
     path_expander (1.0.1)
@@ -97,6 +98,7 @@ PLATFORMS
 DEPENDENCIES
   coveralls
   openseek-api-gem!
+  rake (~> 10.0)
   rubocop
   rubycritic
 
