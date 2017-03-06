@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    openseek-api-gem (0.9.0)
+    openseek-api (0.9.0)
       cocaine
 
 GEM
@@ -97,7 +97,7 @@ PLATFORMS
 
 DEPENDENCIES
   coveralls
-  openseek-api-gem!
+  openseek-api!
   rake (~> 10.0)
   rubocop
   rubycritic
