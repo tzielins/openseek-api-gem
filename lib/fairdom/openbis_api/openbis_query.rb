@@ -3,29 +3,36 @@ require 'json'
 
 module Fairdom
   module OpenbisApi
-    module Common
+    class OpenbisQuery
       JAR_VERSION = '0.9'.freeze
       JAR_PATH = File.join(File.dirname(__dir__), "../../jars/openseek-api-#{JAR_VERSION}.jar")
 
-      attr_reader :init_command
+      attr_reader :token
+
+      def initialize(token)
+        @token = token
+      end
 
       def query(options)
-        command = @init_command
-        command += ' -query {'
-        command += command_from_options options
-        command += '}'
-        read_with_open4 command
+        execute(options)
+      end
+
+      private
+
+      def execute_command(options)
+        "#{java_root_command} -#{command_option_key} {#{command_from_options(options)}}"
       end
 
       def command_from_options(options)
         command = []
-        options.each do |key,value|
+        options.each do |key, value|
           command << "%#{key}%:%#{value.tr(' ', '+')}%"
         end
         command.join("\,")
       end
 
-      def read_with_open4(command)
+      def execute(options)
+        command = execute_command(options)
         output = ''
         err_message = ''
         status = Open4.popen4(command) do |_pid, _stdin, stdout, stderr|
@@ -49,7 +56,11 @@ module Fairdom
 
       # the root of the command call, without the options
       def java_root_command
-        "java -jar #{JAR_PATH}"
+        "java -jar #{JAR_PATH} #{root_command_options}"
+      end
+
+      def command_option_key
+        'query'
       end
     end
   end
