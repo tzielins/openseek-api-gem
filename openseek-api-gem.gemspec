@@ -24,4 +24,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency('rubocop', ['>= 0'])
   spec.add_development_dependency('rubycritic', ['>= 0'])
   spec.add_development_dependency('rake', ['~> 10.0'])
+  spec.add_development_dependency('test-unit')
+
 end
