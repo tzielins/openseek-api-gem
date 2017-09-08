@@ -42,7 +42,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal ['20151216135152196-1'], projects
 
     datasets = space['datasets']
-    assert_equal 8, datasets.size
+    assert_equal 9, datasets.size
     assert_includes datasets, '20160210130359377-22'
 
     space = spaces[1]
@@ -107,5 +107,26 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     @options[:attributeValue] = ''
     result = instance.query(@options)
     refute result['experiments'].empty?
+  end
+
+  def test_query_for_dataset_gives_rich_metadata
+    @options = { entityType: 'DataSet', queryType: 'ATTRIBUTE', attribute: 'PermID', attributeValue: '20170907185702684-36' }
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    #puts result
+
+
+    datasets = result['datasets']
+    assert_equal 1, datasets.size
+
+    dataset = datasets[0]
+    assert_equal '20170907185702684-36', dataset['permId']
+    assert_equal 'apiuser', dataset['registerator']
+
+    params = dataset['properties']
+    assert_not_nil params
+    assert_equal 'TOMEK test set', params['NAME']
+
   end
 end

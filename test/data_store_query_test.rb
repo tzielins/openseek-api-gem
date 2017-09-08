@@ -30,6 +30,7 @@ class DataStoreQueryTest < Test::Unit::TestCase
     @options[:attribute] = 'DataSetPermID'
     @options[:attributeValue] = '20151217153943290-5'
     result = instance.query(@options)
+    #puts result
     assert !result['datasetfiles'].empty?
   end
 
