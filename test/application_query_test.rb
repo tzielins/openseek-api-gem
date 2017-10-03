@@ -129,4 +129,27 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 'TOMEK test set', params['NAME']
 
   end
+
+  def test_query_for_dataset_can_retrive_sampleonly_dataset
+    @options = { entityType: 'DataSet', queryType: 'ATTRIBUTE', attribute: 'PermID', attributeValue: '20171002172401546-38' }
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+
+    datasets = result['datasets']
+    assert_equal 1, datasets.size
+
+    dataset = datasets[0]
+    assert_equal '20171002172401546-38', dataset['permId']
+    assert_equal 'apiuser', dataset['registerator']
+
+    assert_nil dataset['experiment']
+    assert_equal '20171002172111346-37', dataset['sample']
+    params = dataset['properties']
+    assert_not_nil params
+    assert_equal 'DS One', params['NAME']
+
+  end
 end
