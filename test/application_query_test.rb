@@ -135,7 +135,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     result = instance.query(@options)
 
-    # puts result
+    puts result
 
 
     datasets = result['datasets']
