@@ -213,6 +213,19 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 2, experiments.size
   end
 
+  def test_all_sampletypes_query
+
+    @options = { entityType: 'SampleType', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    types = result['sampletypes']
+    assert_equal 30, types.size
+  end
+
   def test_with_type_query
 
     @options = { entityType: 'Sample', queryType: 'TYPE', typeCode: 'TZ_FAIR_ASSAY' }
