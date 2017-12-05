@@ -17,6 +17,13 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     @options = { entityType: 'Experiment', queryType: 'PROPERTY', property: 'SEEK_STUDY_ID', propertyValue: 'Study_1' }
   end
 
+  def local_setup
+    @as_endpoint = 'https://127.0.0.1:8443/openbis/openbis'
+    username = 'seek'
+    password = 'seek'
+    @token = Authentication.new(username, password, @as_endpoint).login['token']
+  end
+
   def test_query_property
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     result = instance.query(@options)
@@ -42,7 +49,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal ['20151216135152196-1'], projects
 
     datasets = space['datasets']
-    assert_equal 9, datasets.size
+    assert_equal 12, datasets.size
     assert_includes datasets, '20160210130359377-22'
 
     space = spaces[1]
@@ -150,6 +157,95 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     params = dataset['properties']
     assert_not_nil params
     assert_equal 'DS One', params['NAME']
+
+  end
+
+
+  def test_all_datasets_query
+
+    @options = { entityType: 'DataSet', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    datasets = result['datasets']
+    assert_equal 12, datasets.size
+  end
+
+  def test_all_samples_query
+
+    @options = { entityType: 'Sample', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    samples = result['samples']
+    assert_equal 4, samples.size
+  end
+
+  def test_all_spaces_query
+
+    @options = { entityType: 'Space', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    spaces = result['spaces']
+    assert_equal 2, spaces.size
+  end
+
+  def test_all_experiments_query
+
+    @options = { entityType: 'Experiment', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    experiments = result['experiments']
+    assert_equal 2, experiments.size
+  end
+
+  def test_with_type_query
+
+    @options = { entityType: 'Sample', queryType: 'TYPE', typeCode: 'TZ_FAIR_ASSAY' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    samples = result['samples']
+    assert_equal 2, samples.size
+
+  end
+
+  def test_local_setup
+    @token = nil
+
+    local_setup
+    assert_not_nil @token
+  end
+
+  def test_type_by_semantic
+    local_setup
+
+    @options = { entityType: 'SampleType', queryType: 'SEMANTIC', predicateAccessionId: 'is_a', descriptorAccessionId: 'assay' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    sampleTypes = result['sampletypes']
+    assert_equal 2, sampleTypes.size
 
   end
 end

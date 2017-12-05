@@ -1,6 +1,6 @@
 module Fairdom
   module OpenbisApi
-    VERSION = '0.12.0'.freeze
-    JAR_VERSION = '0.12'.freeze
+    VERSION = '0.13.0'.freeze
+    JAR_VERSION = '0.13'.freeze
   end
 end

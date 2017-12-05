@@ -5,7 +5,7 @@ require 'fairdom/openbis_api/versions'
 Gem::Specification.new do |spec|
   spec.name        = 'openseek-api'
   spec.version     = Fairdom::OpenbisApi::VERSION
-  spec.authors     = ['Stuart Owen', 'Quyen Nguyen']
+  spec.authors     = ['Stuart Owen', 'Quyen Nguyen', 'Tomasz Zielinski']
   spec.email       = ['thucquyendn@gmail.com']
   spec.homepage    = 'https://github.com/fairdom/openseek-api-gem'
   spec.summary     = 'ruby gem to talk to openbis-api java libaries, for use within SEEK4Science'
