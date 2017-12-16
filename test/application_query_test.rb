@@ -226,7 +226,20 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 30, types.size
   end
 
-  def test_with_type_query
+  def test_all_datasetstypes_query
+
+    @options = { entityType: 'DataSetType', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    types = result['datasettypes']
+    assert_equal 30, types.size
+  end
+
+  def test_samples_with_type_query
 
     @options = { entityType: 'Sample', queryType: 'TYPE', typeCode: 'TZ_FAIR_ASSAY' }
 
@@ -240,6 +253,19 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
 
   end
 
+  def test_datasets_with_type_query
+
+    @options = { entityType: 'DataSet', queryType: 'TYPE', typeCode: 'TZ_FAIR_TEST' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    sets = result['datasets']
+    assert_equal 4, sets.size
+
+  end
   def test_local_setup
     @token = nil
 
