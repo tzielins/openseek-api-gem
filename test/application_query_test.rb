@@ -239,6 +239,19 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 30, types.size
   end
 
+  def test_all_experimentstypes_query
+
+    @options = { entityType: 'ExperimentType', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    types = result['experimenttypes']
+    assert_equal 7, types.size
+  end
+
   def test_samples_with_type_query
 
     @options = { entityType: 'Sample', queryType: 'TYPE', typeCode: 'TZ_FAIR_ASSAY' }
@@ -266,11 +279,39 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 4, sets.size
 
   end
+
+
+
   def test_local_setup
     @token = nil
 
     local_setup
     assert_not_nil @token
+  end
+
+  def test_experiments_with_type_query
+    local_setup
+
+    @options = { entityType: 'Experiment', queryType: 'TYPE', typeCode: 'DEFAULT_EXPERIMENT' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    exps = result['experiments']
+    assert_equal 4, exps.size
+
+    @options = { entityType: 'Experiment', queryType: 'TYPE', typeCodes: 'DEFAULT_EXPERIMENT,MATERIALS' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+
+    exps = result['experiments']
+    assert_equal 16, exps.size
+
   end
 
   def test_type_by_semantic
@@ -286,5 +327,19 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     sampleTypes = result['sampletypes']
     assert_equal 2, sampleTypes.size
 
+  end
+
+  def test_checking_sample_with_parent_and_children
+    local_setup
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+
+    @options[:entityType] = 'Sample'
+    @options[:queryType] = 'ATTRIBUTE'
+    @options[:attribute] = 'PermID'
+    @options[:attributeValue] = '20171121152817911-55'
+    result = instance.query(@options)
+
+    assert_equal 1,result['samples'].size
+    puts result['samples'][0]
   end
 end
