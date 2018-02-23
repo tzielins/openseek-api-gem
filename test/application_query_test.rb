@@ -12,7 +12,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     @as_endpoint = 'https://openbis-api.fair-dom.org/openbis/openbis'
     username = 'apiuser'
     password = 'apiuser'
-    @token = Authentication.new(username, password, @as_endpoint).login['token']
+    #@token = Authentication.new(username, password, @as_endpoint).login['token']
 
     @options = { entityType: 'Experiment', queryType: 'PROPERTY', property: 'SEEK_STUDY_ID', propertyValue: 'Study_1' }
   end
@@ -239,18 +239,8 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 30, types.size
   end
 
-  def test_all_experimentstypes_query
 
-    @options = { entityType: 'ExperimentType', queryType: 'ALL' }
 
-    instance = ApplicationServerQuery.new(@as_endpoint, @token)
-    result = instance.query(@options)
-
-    # puts result
-
-    types = result['experimenttypes']
-    assert_equal 7, types.size
-  end
 
   def test_samples_with_type_query
 
@@ -289,6 +279,65 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_not_nil @token
   end
 
+  def test_all_experimentstypes_query
+    local_setup
+    @options = { entityType: 'ExperimentType', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    puts result.to_json
+
+    types = result['experimenttypes']
+    assert_equal 6, types.size
+  end
+
+  def test_all_experiments_query
+    local_setup
+    @options = { entityType: 'Experiment', queryType: 'ALL' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    puts result.to_json
+
+    experiments = result['experiments']
+    assert_equal 24, experiments.size
+  end
+
+  def test_experimentstypes_with_code_query
+
+    local_setup
+    @options = { entityType: 'ExperimentType', queryType: "ATTRIBUTE", :attribute=>"CODE", :attributeValue=>"DEFAULT_EXPERIMENT" }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    puts result.to_json
+
+    types = result['experimenttypes']
+    assert_equal 1, types.size
+  end
+
+
+  def test_experiments_by_permi_id_query
+    local_setup
+
+    @options = { entityType: 'Experiment', queryType: 'ATTRIBUTE',
+              attribute: 'PermID', attributeValue: '20171121152132641-51'}
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    puts result.to_json
+
+    exps = result['experiments']
+    assert_equal 1, exps.size
+
+
+  end
+
+
   def test_experiments_with_type_query
     local_setup
 
@@ -297,7 +346,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     result = instance.query(@options)
 
-    # puts result
+    puts result.to_json
 
     exps = result['experiments']
     assert_equal 4, exps.size
