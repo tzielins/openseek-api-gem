@@ -219,6 +219,19 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 23, experiments.size
   end
 
+  def test_all_experimentstypes_query
+      local_setup
+      @options = { entityType: 'ExperimentType', queryType: 'ALL' }
+
+      instance = ApplicationServerQuery.new(@as_endpoint, @token)
+      result = instance.query(@options)
+
+      puts result.to_json
+
+      types = result['experimenttypes']
+      assert_equal 6, types.size
+  end
+
   def test_all_sampletypes_query
 
     @options = { entityType: 'SampleType', queryType: 'ALL' }
