@@ -95,7 +95,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     @options[:queryType] = 'ATTRIBUTE'
     @options[:attribute] = 'permId'
-    @options[:attributeValue] = '20180418145822544-47'
+    @options[:attributeValue] = '20180418141729157-47'
     result = instance.query(@options)
     experiments = result['experiments']
     refute experiments.empty?
@@ -105,7 +105,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     @options[:queryType] = 'ATTRIBUTE'
     @options[:attribute] = 'permId'
-    @options[:attributeValue] = '20180418145822544-47,20180418150007367-50'
+    @options[:attributeValue] = '20180424181519696-54,20180418141729157-47'
     result = instance.query(@options)
     experiments = result['experiments']
     refute experiments.empty?
@@ -121,7 +121,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
   end
 
   def test_query_for_dataset_gives_rich_metadata
-    @options = { entityType: 'DataSet', queryType: 'ATTRIBUTE', attribute: 'PermID', attributeValue: '20180418145905365-49' }
+    @options = { entityType: 'DataSet', queryType: 'ATTRIBUTE', attribute: 'PermID', attributeValue: '20180424182903704-59' }
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     result = instance.query(@options)
 
@@ -132,7 +132,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     assert_equal 1, datasets.size
 
     dataset = datasets[0]
-    assert_equal '20180418145905365-49', dataset['permId']
+    assert_equal '20180424182903704-59', dataset['permId']
     # assert_equal 'apiuser', dataset['registerator']
 
     params = dataset['properties']
@@ -177,7 +177,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     datasets = result['datasets']
-    assert_equal 4, datasets.size
+    assert_equal 6, datasets.size
   end
 
   def test_all_samples_query
@@ -190,7 +190,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     samples = result['samples']
-    assert_equal 7, samples.size
+    assert_equal 11, samples.size
   end
 
   def test_all_spaces_query
@@ -271,7 +271,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     samples = result['samples']
-    assert_equal 3, samples.size
+    assert_equal 6, samples.size
 
   end
 
@@ -285,7 +285,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     sets = result['datasets']
-    assert_equal 2, sets.size
+    assert_equal 4, sets.size
 
   end
 
@@ -321,7 +321,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     local_setup
 
     @options = { entityType: 'Experiment', queryType: 'ATTRIBUTE',
-              attribute: 'PermID', attributeValue: '20180418145822544-47'}
+              attribute: 'PermID', attributeValue: '20180424181519696-54'}
 
     instance = ApplicationServerQuery.new(@as_endpoint, @token)
     result = instance.query(@options)
