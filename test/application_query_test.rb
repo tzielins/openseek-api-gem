@@ -45,15 +45,15 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # assert_equal 'API-SPACE', space['code']
     # assert_equal 'use for testing openbis api integration', space['description'].strip
     experiments = space['experiments']
-    assert_equal 1, experiments.size
+    assert_equal 0, experiments.size
     # assert_equal ['20151216143716562-2'], experiments
 
     projects = space['projects']
-    assert_equal 1, projects.size
+    assert_equal 0, projects.size
     # assert_equal ['20151216135152196-1'], projects
 
-    #datasets = space['datasets']
-    #assert_equal 12, datasets.size
+    datasets = space['datasets']
+    assert_equal 0, datasets.size
     #assert_includes datasets, '20160210130359377-22'
 
     # space = spaces[1]
@@ -190,7 +190,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     samples = result['samples']
-    assert_equal 11, samples.size
+    assert_equal 16, samples.size
   end
 
   def test_all_spaces_query
@@ -216,7 +216,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     puts result.to_json
 
     experiments = result['experiments']
-    assert_equal 23, experiments.size
+    assert_equal 24, experiments.size
   end
 
   def test_all_experimentstypes_query
@@ -242,7 +242,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     types = result['sampletypes']
-    assert_equal 24, types.size
+    assert_equal 25, types.size
   end
 
   def test_all_datasetstypes_query
@@ -271,7 +271,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     samples = result['samples']
-    assert_equal 6, samples.size
+    assert_equal 8, samples.size
 
   end
 
@@ -346,7 +346,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     puts result.to_json
 
     exps = result['experiments']
-    assert_equal 2, exps.size
+    assert_equal 3, exps.size
 
     @options = { entityType: 'Experiment', queryType: 'TYPE', typeCodes: 'DEFAULT_EXPERIMENT,MATERIALS' }
 
@@ -356,7 +356,7 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
     # puts result
 
     exps = result['experiments']
-    assert_equal 14, exps.size
+    assert_equal 15, exps.size
 
   end
 
@@ -370,6 +370,38 @@ class ApplicationServerQueryTest < Test::Unit::TestCase
 
     # puts result
 
+    sampleTypes = result['sampletypes']
+    assert_equal 2, sampleTypes.size
+
+  end
+
+  def test_type_by_codes
+    local_setup
+
+    @options = { entityType: 'SampleType', queryType: 'ATTRIBUTE', attribute: 'CODE', attributeValue: 'EXPERIMENTAL_STEP' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+    sampleTypes = result['sampletypes']
+    assert_equal 1, sampleTypes.size
+
+    @options = { entityType: 'SampleType', queryType: 'ATTRIBUTE', attribute: 'CODE', attributeValue: 'UNKNOWN' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
+    sampleTypes = result['sampletypes']
+    assert_equal 1, sampleTypes.size
+
+    @options = { entityType: 'SampleType', queryType: 'ATTRIBUTE', attribute: 'CODE', attributeValue: 'EXPERIMENTAL_STEP,UNKNOWN' }
+
+    instance = ApplicationServerQuery.new(@as_endpoint, @token)
+    result = instance.query(@options)
+
+    # puts result
     sampleTypes = result['sampletypes']
     assert_equal 2, sampleTypes.size
 
