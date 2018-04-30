@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   # runtime dependencies
-  spec.add_dependency('cocaine', ['>= 0'])
+  spec.add_dependency('terrapin', ['>= 0'])
 
   # development dependencies
   spec.add_development_dependency('coveralls', ['>= 0'])

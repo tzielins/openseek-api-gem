@@ -1,4 +1,4 @@
-require 'cocaine'
+require 'terrapin'
 require 'json'
 
 module Fairdom
@@ -12,9 +12,9 @@ module Fairdom
 
       def execute(options)
         command = execute_command(options)
-        output = Cocaine::CommandLine.new(command).run
+        output = Terrapin::CommandLine.new(command).run
         JSON.parse(output.strip)
-      rescue Cocaine::ExitStatusError => exception
+      rescue Terrapin::ExitStatusError => exception
         raise OpenbisQueryException, exception.message
       end
 
